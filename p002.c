@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+const uint64_t n_default = 4000000;
+
 uint64_t
 solve(uint64_t n) {
   uint64_t sum = 0;
@@ -19,7 +21,7 @@ solve(uint64_t n) {
 int
 main(int argc, char* argv[]) {
   if (argc <= 1) {
-    printf("solve(4000000) = %lu\n", solve(4000000));
+    printf("solve(%lu) = %lu\n", n_default, solve(n_default));
   } else {
     for (int i = 1; i < argc; ++i) {
       uint64_t n = strtoul(argv[i], NULL, 0);
