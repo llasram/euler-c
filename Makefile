@@ -3,9 +3,11 @@ CFLAGS += -O2 -Wall -Wextra -Werror -pipe -ggdb3 -std=gnu99 -march=native
 CPPFLAGS += -D_GNU_SOURCE=1
 LDFLAGS += -lm
 
-all: p001 p002 p003
+PROBLEMS = p001 p002 p003 p004
+
+all: $(PROBLEMS)
 
 clean:
-	rm -f *.o p001 p002 p003
+	rm -f *.o $(PROBLEMS)
 
 .PHONY: clean all
