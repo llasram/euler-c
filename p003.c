@@ -26,13 +26,15 @@ uint64_t
 solve(uint64_t n) {
   uint64_t result = 0;
   uint64_t sqrt_n = (uint64_t)floor(sqrt((double)n));
-  uint32_t *composites = calloc((sqrt_n + 31) / 32, sizeof(uint32_t));
+  uint32_t *composites = calloc((sqrt_n / 32) + 1, sizeof(uint32_t));
 
   for (uint64_t x = 3; x <= sqrt_n; x += 2) {
     if (bitvec_get(composites, x)) continue;
     for (uint64_t i = x; i <= sqrt_n; i += x) bitvec_set(composites, i, true);
     if (n % x == 0) result = x;
   }
+
+  free(composites);
 
   return result;
 }
