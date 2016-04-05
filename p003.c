@@ -4,17 +4,30 @@
 #include <stdio.h>
 #include <math.h>
 
+#define max(a,b) ({          \
+  __typeof__ (a) _a = (a);   \
+  __typeof__ (b) _b = (b);   \
+  _a > _b ? _a : _b;         \
+})
+
 const uint64_t n_default = 600851475143;
 
+typedef uint32_t bitvec_t;
+
+static inline bitvec_t *
+bitvec_new(size_t n) {
+  return calloc((n + 31) / 32, sizeof(uint32_t));
+}
+
 static inline bool
-bitvec_get(uint32_t *bitvec, size_t index) {
+bitvec_get(bitvec_t *bitvec, size_t index) {
   size_t word = index / 32;
   size_t bit = 1 << (index & 31);
   return (bitvec[word] & bit) != 0;
 }
 
 static inline void
-bitvec_set(uint32_t *bitvec, size_t index, bool value) {
+bitvec_set(bitvec_t *bitvec, size_t index, bool value) {
   size_t word = index / 32;
   size_t bit = 1 << (index & 31);
   bitvec[word] = value
@@ -25,13 +38,25 @@ bitvec_set(uint32_t *bitvec, size_t index, bool value) {
 uint64_t
 solve(uint64_t n) {
   uint64_t result = 0;
-  uint64_t sqrt_n = (uint64_t)floor(sqrt((double)n));
-  uint32_t *composites = calloc((sqrt_n / 32) + 1, sizeof(uint32_t));
+  uint64_t zeros = __builtin_ctz(n);
+  if ((n >>= zeros) < 9) return max(zeros ? 2UL : 1UL, n);
+  uint64_t bound = ((uint64_t)floor(sqrt((double)n)) - 3) / 2 + 1;
+  // Bit vector of whether 2*i + 3 is known composite
+  bitvec_t *composites = bitvec_new(bound);
 
-  for (uint64_t x = 3; x <= sqrt_n; x += 2) {
-    if (bitvec_get(composites, x)) continue;
-    for (uint64_t i = x; i <= sqrt_n; i += x) bitvec_set(composites, i, true);
-    if (n % x == 0) result = x;
+  for (uint64_t i = 0; i < bound; ++i) {
+    if (bitvec_get(composites, i)) continue;
+    uint64_t x = 2*i + 3;
+    // Iterating indices by x iterates projected values by 2*x
+    for (uint64_t j = i + x; j < bound; j += x) bitvec_set(composites, j, true);
+    if (n % x != 0) continue;
+    result = x;
+    do { n = n / x; } while (n % x == 0);
+    if (n == 0) break;
+    bound = ((uint64_t)floor(sqrt((double)n)) - 3) / 2 + 1;
+  }
+  if (n > result) {
+    result = n;
   }
 
   free(composites);
