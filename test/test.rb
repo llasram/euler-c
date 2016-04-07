@@ -26,6 +26,6 @@ class EulerTests < Test::Unit::TestCase
 
   protected
   def problem(n)
-    %x{./p#{sprintf("%03d", n)}}.chomp.split(' = ')[1].to_i
+    %x{./src/p#{sprintf("%03d", n)}}.chomp.split(' = ')[1].to_i
   end
 end
