@@ -1,12 +1,20 @@
 # euler-c
 
-Solutions to various Project Euler problems in C (C99) using only the C standard
-library and GCC extensions.
+Solutions to various Project Euler problems, in C (C99), using only the C
+standard library and GCC extensions.
 
-Each solution is a separate single self-contained C source file building a
-self-contained executable.  A Ruby test suite verifies program output versus
-correct solutions.
+Each solution is expressed as a separate single self-contained C source file
+building a self-contained executable.  A Ruby test suite verifies program output
+versus the accepted solutions.
+
+## Usage
 
 Build and test all solutions with:
 
     make test
+
+## License
+
+Copyright © 2016 Marshall Bockrath-Vandegrift
+
+Distributed under the MIT License.
