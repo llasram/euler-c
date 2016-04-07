@@ -9,7 +9,10 @@ PROBLEMS = \
 
 all: $(PROBLEMS)
 
+test: all
+	./test.rb
+
 clean:
 	rm -f *.o $(PROBLEMS)
 
-.PHONY: clean all
+.PHONY: all test clean
