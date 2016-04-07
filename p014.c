@@ -9,22 +9,30 @@ const uint32_t n_default = (uint32_t)1e6;
 uint32_t
 solve(uint32_t n) {
   uint32_t result = 0;
-  uint32_t *state = malloc(n * sizeof(uint32_t));
-  for (uint32_t i = 0; i < n; ++i) state[i] = i;
+  uint32_t bound = n - 2;
+  uint32_t *num = malloc(bound * sizeof(uint32_t));
+  uint32_t *state = malloc(bound * sizeof(uint32_t));
+  for (uint32_t i = 0; i < bound; ++i) {
+    state[i] = num[i] = i + 2;
+  }
 
-  bool finished = false;
-  do {
-    finished = true;
-    for (uint32_t i = 1; i < n; ++i) {
-      uint32_t i1 = state[i];
-      if (i1 == 1) continue;
-      finished = false;
-      state[i] = (i1 % 2 == 0) ? (i1 / 2) : (3*i1 + 1);
-      result = i;
+  uint32_t live = bound;
+  while (live > 1) {
+    uint32_t i_live = 0;
+    for (uint32_t i = 0; i < live; ++i) {
+      uint32_t x = state[i];
+      x = (x % 2 == 0) ? (x / 2) : (3*x + 1);
+      if (x == 1) continue;
+      state[i_live] = x;
+      num[i_live] = num[i];
+      i_live += 1;
     }
-  } while (!finished);
+    live = i_live;
+  }
+  result = num[0];
 
   free(state);
+  free(num);
 
   return result;
 }
