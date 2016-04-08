@@ -5,14 +5,14 @@
 const uint64_t n_default = 1000;
 
 uint64_t
+sumto(uint64_t n, uint64_t m) {
+  n = (n - 1) / m;
+  return m * (n + 1) * n / 2;
+}
+
+uint64_t
 solve(uint64_t n) {
-  uint64_t sum = 0;
-  for (uint64_t i = 1; i < n; ++i) {
-    if (i % 3 == 0 || i % 5 == 0) {
-      sum += i;
-    }
-  }
-  return sum;
+  return sumto(n, 3) + sumto(n, 5) - sumto(n, 15);
 }
 
 int
