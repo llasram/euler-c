@@ -52,8 +52,10 @@ solve(uint64_t n) {
     if (n % x != 0) continue;
     result = x;
     do { n = n / x; } while (n % x == 0);
-    if (n == 0) break;
-    bound = ((uint64_t)floor(sqrt((double)n)) - 3) / 2 + 1;
+    if (n == 1) break;
+    uint64_t bound1 = (uint64_t)floor(sqrt((double)n));
+    if (bound1 <= x) break;
+    bound = (bound1 - 3) / 2 + 1;
   }
   if (n > result) {
     result = n;
