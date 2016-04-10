@@ -9,10 +9,9 @@ const uint64_t n_default = 100;
 uint64_t
 solve(uint64_t n) {
   uint64_t result = 0;
+  uint64_t t = n * (n + 1);
   for (uint64_t i = 1; i < n; ++i) {
-    for (uint64_t j = i + 1; j <= n; ++j) {
-      result += 2 * i * j;
-    }
+    result += i * (t - (i * (i + 1)));
   }
   return result;
 }
