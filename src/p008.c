@@ -30,13 +30,13 @@ const char number[] =
 
 uint64_t
 solve(const char *number, size_t n, uint64_t k) {
-  uint64_t result = 1;
   uint64_t zeroes = 0;
+  uint64_t x = 1;
   for (size_t i = 0; i < k; ++i) {
     uint64_t d = number[i] - '0';
-    if (d == 0) zeroes += 1; else result *= d;
+    if (d == 0) zeroes += 1; else x *= d;
   }
-  uint64_t x = zeroes ? 0 : result;
+  uint64_t result = zeroes ? 0 : x;
   for (size_t i = k; i < n; ++i) {
     uint64_t d0 = number[i - k] - '0';
     uint64_t d1 = number[i] - '0';
