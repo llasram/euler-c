@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 
-const uint64_t n_default = 13;
+const uint64_t k_default = 13;
 
 const char number[] =
   "73167176531330624919225119674426574742355349194934"
@@ -29,16 +29,16 @@ const char number[] =
   "71636269561882670428252483600823257530420752963450";
 
 uint64_t
-solve(uint64_t n) {
+solve(const char *number, size_t n, uint64_t k) {
   uint64_t result = 1;
   uint64_t zeroes = 0;
-  for (size_t i = 0; i < n; ++i) {
+  for (size_t i = 0; i < k; ++i) {
     uint64_t d = number[i] - '0';
-    if (d == 0) { zeroes += 1; } else { result *= d; }
+    if (d == 0) zeroes += 1; else result *= d;
   }
   uint64_t x = zeroes ? 0 : result;
-  for (size_t i = n; i < sizeof(number); ++i) {
-    uint64_t d0 = number[i - n] - '0';
+  for (size_t i = k; i < n; ++i) {
+    uint64_t d0 = number[i - k] - '0';
     uint64_t d1 = number[i] - '0';
     if (d0 == 0) zeroes -= 1; else x /= d0;
     if (d1 == 0) zeroes += 1; else x *= d1;
@@ -49,12 +49,13 @@ solve(uint64_t n) {
 
 int
 main(int argc, char* argv[]) {
+  size_t n = sizeof(number);
   if (argc <= 1) {
-    printf("solve(%lu) = %lu\n", n_default, solve(n_default));
+    printf("solve(%lu) = %lu\n", k_default, solve(number, n, k_default));
   } else {
     for (int i = 1; i < argc; ++i) {
-      uint64_t n = strtoul(argv[i], NULL, 0);
-      printf("solve(%lu) = %lu\n", n, solve(n));
+      uint64_t k = strtoul(argv[i], NULL, 0);
+      printf("solve(%lu) = %lu\n", k, solve(number, n, k));
     }
   }
   return 0;
