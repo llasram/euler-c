@@ -34,7 +34,7 @@ solve(uint64_t n) {
   if (n <= 2) return 0;
 
   uint64_t result = 2;
-  uint64_t bound = (n + 1) / 2;
+  uint64_t bound = (n - 1) / 2;
   // Bit vector of whether 2*i + 3 is known composite
   bitvec_t *composites = bitvec_new(bound);
 
