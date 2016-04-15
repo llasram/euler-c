@@ -1,6 +1,6 @@
 # euler-c
 
-Solutions to various Project Euler problems, in C (C99), using only the C
+Solutions to various Project Euler problems, in C (C11), using only the C
 standard library and GCC extensions.
 
 Each solution is expressed as a separate single self-contained C source file

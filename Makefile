@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS += -O2 -Wall -Wextra -Werror -pipe -ggdb3 -std=gnu99 -march=native
+CFLAGS += -O2 -Wall -Wextra -Werror -pipe -ggdb3 -std=gnu11 -march=native
 CPPFLAGS += -D_GNU_SOURCE=1
 LDFLAGS += -lm
 
