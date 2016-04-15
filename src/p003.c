@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define max(a,b) ({          \
+#define max(a, b) ({         \
   __typeof__ (a) _a = (a);   \
   __typeof__ (b) _b = (b);   \
   _a > _b ? _a : _b;         \
@@ -35,12 +35,17 @@ bitvec_set(bitvec_t *bitvec, size_t index, bool value) {
     : (bitvec[word] & ~bit);
 }
 
+static uint64_t
+bound_for(uint64_t n) {
+  return (max(3UL, (uint64_t)floor(sqrt((double)n))) - 3) / 2 + 1;
+}
+
 uint64_t
 solve(uint64_t n) {
-  uint64_t result = 0;
   uint64_t zeros = __builtin_ctz(n);
-  if ((n >>= zeros) < 9) return max(zeros ? 2UL : 1UL, n);
-  uint64_t bound = ((uint64_t)floor(sqrt((double)n)) - 3) / 2 + 1;
+  n >>= zeros;
+  uint64_t result = zeros ? 2 : 1;
+  uint64_t bound = bound_for(n);
   // Bit vector of whether 2*i + 3 is known composite
   bitvec_t *composites = bitvec_new(bound);
 
@@ -51,11 +56,8 @@ solve(uint64_t n) {
     for (uint64_t j = i + x; j < bound; j += x) bitvec_set(composites, j, true);
     if (n % x != 0) continue;
     result = x;
-    do { n = n / x; } while (n % x == 0);
-    if (n == 1) break;
-    uint64_t bound1 = (uint64_t)floor(sqrt((double)n));
-    if (bound1 <= x) break;
-    bound = (bound1 - 3) / 2 + 1;
+    do n = n / x; while (n % x == 0);
+    bound = bound_for(n);
   }
   if (n > result) {
     result = n;
