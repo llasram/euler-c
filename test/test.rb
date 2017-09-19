@@ -23,6 +23,7 @@ class EulerTests < Test::Unit::TestCase
   def test_p018; assert_equal(1074, problem(18)); end
   def test_p019; assert_equal(171, problem(19)); end
   def test_p020; assert_equal(648, problem(20)); end
+  def test_p191; assert_equal(1918080160, problem(191)); end
 
   protected
   def problem(n)
